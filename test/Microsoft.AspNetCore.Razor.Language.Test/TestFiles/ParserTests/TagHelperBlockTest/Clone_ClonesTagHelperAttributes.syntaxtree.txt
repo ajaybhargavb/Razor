@@ -1,0 +1,6 @@
+Tag block - Gen<TagHelper> - 0 - (0:0,0) - p
+    StartTagAndEndTag - 
+    class - NoQuotes
+        Transition span - Gen<None> - [] - SpanEditHandler;Accepts:Any - (0:0,0) - Symbols:0
+    checked - NoQuotes
+        Transition span - Gen<None> - [] - SpanEditHandler;Accepts:Any - (-1:-1,-1) - Symbols:0

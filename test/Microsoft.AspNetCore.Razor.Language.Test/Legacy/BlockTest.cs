@@ -6,7 +6,7 @@ using Xunit;
 
 namespace Microsoft.AspNetCore.Razor.Language.Legacy
 {
-    public class BlockTest
+    public class BlockTest : CsHtmlCodeParserTestBase
     {
         [Fact]
         public void ChildChanged_NotifiesParent()
@@ -60,8 +60,17 @@ namespace Microsoft.AspNetCore.Razor.Language.Legacy
             var copy = (Block)block.Clone();
 
             // Assert
-            ParserTestBase.EvaluateParseTree(copy, block);
             Assert.NotSame(block, copy);
+
+            if (GenerateBaselines)
+            {
+                // We want to write the original to the baseline and test it against the copy.
+                BaselineTest(block, verifySyntaxTree: false);
+            }
+            else
+            {
+                BaselineTest(copy, verifySyntaxTree: false);
+            }
         }
 
         [Fact]

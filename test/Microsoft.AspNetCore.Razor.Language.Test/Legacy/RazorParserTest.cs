@@ -1,13 +1,12 @@
 // Copyright (c) .NET Foundation. All rights reserved.
 // Licensed under the Apache License, Version 2.0. See License.txt in the project root for license information.
 
-using System.IO;
 using System.Linq;
 using Xunit;
 
 namespace Microsoft.AspNetCore.Razor.Language.Legacy
 {
-    public class RazorParserTest
+    public class RazorParserTest : CsHtmlMarkupParserTestBase
     {
         [Fact]
         public void CanParseStuff()
@@ -26,16 +25,11 @@ namespace Microsoft.AspNetCore.Razor.Language.Legacy
             var factory = new SpanFactory();
             var parser = new RazorParser();
 
-            // Act/Assert
-            ParserTestBase.EvaluateResults(parser.Parse(TestRazorSourceDocument.Create("foo @bar baz")),
-                new MarkupBlock(
-                    factory.Markup("foo "),
-                    new ExpressionBlock(
-                        factory.CodeTransition(),
-                        factory.Code("bar")
-                               .AsImplicitExpression(CSharpCodeParser.DefaultKeywords)
-                               .Accepts(AcceptedCharactersInternal.NonWhiteSpace)),
-                    factory.Markup(" baz")));
+            // Act
+            var syntaxTree = parser.Parse(TestRazorSourceDocument.Create("foo @bar baz"));
+
+            // Assert
+            BaselineTest(syntaxTree, verifySyntaxTree: false);
         }
 
         [Fact]
@@ -49,15 +43,7 @@ namespace Microsoft.AspNetCore.Razor.Language.Legacy
             var results = parser.Parse(TestRazorSourceDocument.Create("foo @bar baz"));
 
             // Assert
-            ParserTestBase.EvaluateResults(results,
-                new MarkupBlock(
-                    factory.Markup("foo "),
-                    new ExpressionBlock(
-                        factory.CodeTransition(),
-                        factory.Code("bar")
-                               .AsImplicitExpression(CSharpCodeParser.DefaultKeywords)
-                               .Accepts(AcceptedCharactersInternal.NonWhiteSpace)),
-                    factory.Markup(" baz")));
+            BaselineTest(results, verifySyntaxTree: false);
         }
 
         [Fact]

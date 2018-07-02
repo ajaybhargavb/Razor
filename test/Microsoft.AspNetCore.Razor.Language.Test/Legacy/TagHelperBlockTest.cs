@@ -7,7 +7,7 @@ using Xunit;
 
 namespace Microsoft.AspNetCore.Razor.Language.Legacy
 {
-    public class TagHelperBlockTest
+    public class TagHelperBlockTest : CsHtmlMarkupParserTestBase
     {
         [Fact]
         public void Clone_ClonesTagHelperChildren()
@@ -27,11 +27,20 @@ namespace Microsoft.AspNetCore.Razor.Language.Legacy
             var copy = (TagHelperBlock)tagHelper.Clone();
 
             // Assert
-            ParserTestBase.EvaluateParseTree(copy, tagHelper);
             Assert.Collection(
                 copy.Children,
                 child => Assert.NotSame(tagHelper.Children[0], child),
                 child => Assert.NotSame(tagHelper.Children[1], child));
+
+            if (GenerateBaselines)
+            {
+                // We want to write the original to the baseline and test it against the copy.
+                BaselineTest(tagHelper, verifySyntaxTree: false);
+            }
+            else
+            {
+                BaselineTest(copy, verifySyntaxTree: false);
+            }
         }
 
         [Fact]
@@ -52,11 +61,20 @@ namespace Microsoft.AspNetCore.Razor.Language.Legacy
             var copy = (TagHelperBlock)tagHelper.Clone();
 
             // Assert
-            ParserTestBase.EvaluateParseTree(copy, tagHelper);
             Assert.Collection(
                 copy.Attributes,
                 attribute => Assert.NotSame(tagHelper.Attributes[0], attribute),
                 attribute => Assert.NotSame(tagHelper.Attributes[1], attribute));
+
+            if (GenerateBaselines)
+            {
+                // We want to write the original to the baseline and test it against the copy.
+                BaselineTest(tagHelper, verifySyntaxTree: false);
+            }
+            else
+            {
+                BaselineTest(copy, verifySyntaxTree: false);
+            }
         }
 
         [Fact]
@@ -80,8 +98,16 @@ namespace Microsoft.AspNetCore.Razor.Language.Legacy
             var copy = (TagHelperBlock)tagHelper.Clone();
 
             // Assert
-            ParserTestBase.EvaluateParseTree(copy, tagHelper);
             Assert.NotSame(tagHelper.SourceStartTag, copy.SourceStartTag);
+            if (GenerateBaselines)
+            {
+                // We want to write the original to the baseline and test it against the copy.
+                BaselineTest(tagHelper, verifySyntaxTree: false);
+            }
+            else
+            {
+                BaselineTest(copy, verifySyntaxTree: false);
+            }
         }
 
         [Fact]
@@ -105,8 +131,16 @@ namespace Microsoft.AspNetCore.Razor.Language.Legacy
             var copy = (TagHelperBlock)tagHelper.Clone();
 
             // Assert
-            ParserTestBase.EvaluateParseTree(copy, tagHelper);
             Assert.NotSame(tagHelper.SourceEndTag, copy.SourceEndTag);
+            if (GenerateBaselines)
+            {
+                // We want to write the original to the baseline and test it against the copy.
+                BaselineTest(tagHelper, verifySyntaxTree: false);
+            }
+            else
+            {
+                BaselineTest(copy, verifySyntaxTree: false);
+            }
         }
 
         [Fact]

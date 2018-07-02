@@ -1,0 +1,2 @@
+Expression block - Gen<DynAttr:class="@(0:0,0)> - 0 - (1:2,3)
+    Transition span - Gen<None> - [] - SpanEditHandler;Accepts:Any - (1:2,3) - Symbols:0
