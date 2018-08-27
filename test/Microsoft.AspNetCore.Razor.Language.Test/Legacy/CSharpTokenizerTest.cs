@@ -1,13 +1,14 @@
 // Copyright (c) .NET Foundation. All rights reserved.
 // Licensed under the Apache License, Version 2.0. See License.txt in the project root for license information.
 
+using Microsoft.AspNetCore.Razor.Language.Syntax.InternalSyntax;
 using Xunit;
 
 namespace Microsoft.AspNetCore.Razor.Language.Legacy
 {
     public class CSharpTokenizerTest : CSharpTokenizerTestBase
     {
-        private new CSharpSymbol IgnoreRemaining => (CSharpSymbol)base.IgnoreRemaining;
+        private new SyntaxToken IgnoreRemaining => (SyntaxToken)base.IgnoreRemaining;
 
         [Fact]
         public void Next_Returns_Null_When_EOF_Reached()
@@ -20,8 +21,8 @@ namespace Microsoft.AspNetCore.Razor.Language.Legacy
         {
             TestTokenizer(
                 "\r\ra",
-                new CSharpSymbol("\r", CSharpSymbolType.NewLine),
-                new CSharpSymbol("\r", CSharpSymbolType.NewLine),
+                SyntaxFactory.Token(SyntaxKind.NewLine, "\r"),
+                SyntaxFactory.Token(SyntaxKind.NewLine, "\r"),
                 IgnoreRemaining);
         }
 
@@ -30,8 +31,8 @@ namespace Microsoft.AspNetCore.Razor.Language.Legacy
         {
             TestTokenizer(
                 "\n\na",
-                new CSharpSymbol("\n", CSharpSymbolType.NewLine),
-                new CSharpSymbol("\n", CSharpSymbolType.NewLine),
+                SyntaxFactory.Token(SyntaxKind.NewLine, "\n"),
+                SyntaxFactory.Token(SyntaxKind.NewLine, "\n"),
                 IgnoreRemaining);
         }
 
@@ -41,8 +42,8 @@ namespace Microsoft.AspNetCore.Razor.Language.Legacy
             // NEL: Unicode "Next Line" U+0085
             TestTokenizer(
                 "\u0085\u0085a",
-                new CSharpSymbol("\u0085", CSharpSymbolType.NewLine),
-                new CSharpSymbol("\u0085", CSharpSymbolType.NewLine),
+                SyntaxFactory.Token(SyntaxKind.NewLine, "\u0085"),
+                SyntaxFactory.Token(SyntaxKind.NewLine, "\u0085"),
                 IgnoreRemaining);
         }
 
@@ -52,8 +53,8 @@ namespace Microsoft.AspNetCore.Razor.Language.Legacy
             // Unicode "Line Separator" U+2028
             TestTokenizer(
                 "\u2028\u2028a",
-                new CSharpSymbol("\u2028", CSharpSymbolType.NewLine),
-                new CSharpSymbol("\u2028", CSharpSymbolType.NewLine),
+                SyntaxFactory.Token(SyntaxKind.NewLine, "\u2028"),
+                SyntaxFactory.Token(SyntaxKind.NewLine, "\u2028"),
                 IgnoreRemaining);
         }
 
@@ -63,8 +64,8 @@ namespace Microsoft.AspNetCore.Razor.Language.Legacy
             // Unicode "Paragraph Separator" U+2029
             TestTokenizer(
                 "\u2029\u2029a",
-                new CSharpSymbol("\u2029", CSharpSymbolType.NewLine),
-                new CSharpSymbol("\u2029", CSharpSymbolType.NewLine),
+                SyntaxFactory.Token(SyntaxKind.NewLine, "\u2029"),
+                SyntaxFactory.Token(SyntaxKind.NewLine, "\u2029"),
                 IgnoreRemaining);
         }
 
@@ -73,8 +74,8 @@ namespace Microsoft.AspNetCore.Razor.Language.Legacy
         {
             TestTokenizer(
                 "\r\n\r\na",
-                new CSharpSymbol("\r\n", CSharpSymbolType.NewLine),
-                new CSharpSymbol("\r\n", CSharpSymbolType.NewLine),
+                SyntaxFactory.Token(SyntaxKind.NewLine, "\r\n"),
+                SyntaxFactory.Token(SyntaxKind.NewLine, "\r\n"),
                 IgnoreRemaining);
         }
 
@@ -83,15 +84,15 @@ namespace Microsoft.AspNetCore.Razor.Language.Legacy
         {
             TestTokenizer(
                 " \f\t\u000B \n ",
-                new CSharpSymbol(" \f\t\u000B ", CSharpSymbolType.WhiteSpace),
-                new CSharpSymbol("\n", CSharpSymbolType.NewLine),
-                new CSharpSymbol(" ", CSharpSymbolType.WhiteSpace));
+                SyntaxFactory.Token(SyntaxKind.Whitespace, " \f\t\u000B "),
+                SyntaxFactory.Token(SyntaxKind.NewLine, "\n"),
+                SyntaxFactory.Token(SyntaxKind.Whitespace, " "));
         }
 
         [Fact]
         public void Transition_Is_Recognized()
         {
-            TestSingleToken("@", CSharpSymbolType.Transition);
+            TestSingleToken("@", SyntaxKind.Transition);
         }
 
         [Fact]
@@ -99,8 +100,8 @@ namespace Microsoft.AspNetCore.Razor.Language.Legacy
         {
             TestTokenizer(
                 "@(",
-                new CSharpSymbol("@", CSharpSymbolType.Transition),
-                new CSharpSymbol("(", CSharpSymbolType.LeftParenthesis));
+                SyntaxFactory.Token(SyntaxKind.Transition, "@"),
+                SyntaxFactory.Token(SyntaxKind.LeftParenthesis, "("));
         }
     }
 }

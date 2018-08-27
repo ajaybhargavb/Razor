@@ -1,0 +1,20 @@
+Markup block - Gen<None> - 45 - (0:0,0)
+    Tag block - Gen<TagHelper> - 45 - (0:0,0) - p - pTagHelper
+        StartTagAndEndTag - <p class="@DateTime.Now"> ... </p>
+        class - DoubleQuotes
+            Markup block - Gen<None> - 13 - (10:0,10)
+                Markup block - Gen<DynAttr:@(10:0,10)> - 13 - (10:0,10)
+                    Expression block - Gen<Expr> - 13 - (10:0,10)
+                        Transition span - Gen<None> - [@] - SpanEditHandler;Accepts:None - (10:0,10) - Tokens:1
+                            SyntaxKind.Transition;[@];
+                        Code span - Gen<Expr> - [DateTime.Now] - ImplicitExpressionEditHandler;Accepts:NonWhitespace;ImplicitExpression[RTD];K14 - (11:0,11) - Tokens:3
+                            SyntaxKind.Identifier;[DateTime];
+                            SyntaxKind.Dot;[.];
+                            SyntaxKind.Identifier;[Now];
+        SyntaxKind.HtmlText - [words and spaces] - [25..41) - FullWidth: 16 - Slots: 1
+            SyntaxKind.List - [words and spaces] - [25..41) - FullWidth: 16 - Slots: 5
+                SyntaxKind.HtmlTextLiteral;[words];
+                SyntaxKind.Whitespace;[ ];
+                SyntaxKind.HtmlTextLiteral;[and];
+                SyntaxKind.Whitespace;[ ];
+                SyntaxKind.HtmlTextLiteral;[spaces];

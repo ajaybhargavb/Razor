@@ -1,0 +1,14 @@
+Statement block - Gen<None> - 22 - (0:0,0)
+    Code span - Gen<Stmt> - [do { } while(foo barLF] - SpanEditHandler;Accepts:Any - (0:0,0) - Tokens:12
+        SyntaxKind.Keyword;[do];
+        SyntaxKind.Whitespace;[ ];
+        SyntaxKind.LeftBrace;[{];
+        SyntaxKind.Whitespace;[ ];
+        SyntaxKind.RightBrace;[}];
+        SyntaxKind.Whitespace;[ ];
+        SyntaxKind.Keyword;[while];
+        SyntaxKind.LeftParenthesis;[(];
+        SyntaxKind.Identifier;[foo];
+        SyntaxKind.Whitespace;[ ];
+        SyntaxKind.Identifier;[bar];
+        SyntaxKind.NewLine;[LF];

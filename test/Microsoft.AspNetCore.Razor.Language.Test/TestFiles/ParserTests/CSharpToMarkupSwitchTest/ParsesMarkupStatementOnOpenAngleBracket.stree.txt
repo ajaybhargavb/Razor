@@ -1,0 +1,45 @@
+Statement block - Gen<None> - 42 - (0:0,0)
+    Code span - Gen<Stmt> - [for(int i = 0; i < 10; i++) {] - SpanEditHandler;Accepts:Any - (0:0,0) - Tokens:23
+        SyntaxKind.Keyword;[for];
+        SyntaxKind.LeftParenthesis;[(];
+        SyntaxKind.Keyword;[int];
+        SyntaxKind.Whitespace;[ ];
+        SyntaxKind.Identifier;[i];
+        SyntaxKind.Whitespace;[ ];
+        SyntaxKind.Assign;[=];
+        SyntaxKind.Whitespace;[ ];
+        SyntaxKind.IntegerLiteral;[0];
+        SyntaxKind.Semicolon;[;];
+        SyntaxKind.Whitespace;[ ];
+        SyntaxKind.Identifier;[i];
+        SyntaxKind.Whitespace;[ ];
+        SyntaxKind.LessThan;[<];
+        SyntaxKind.Whitespace;[ ];
+        SyntaxKind.IntegerLiteral;[10];
+        SyntaxKind.Semicolon;[;];
+        SyntaxKind.Whitespace;[ ];
+        SyntaxKind.Identifier;[i];
+        SyntaxKind.Increment;[++];
+        SyntaxKind.RightParenthesis;[)];
+        SyntaxKind.Whitespace;[ ];
+        SyntaxKind.LeftBrace;[{];
+    Markup block - Gen<None> - 12 - (29:0,29)
+        Markup span - Gen<Markup> - [ ] - SpanEditHandler;Accepts:Any - (29:0,29) - Tokens:1
+            SyntaxKind.Whitespace;[ ];
+        Tag block - Gen<None> - 3 - (30:0,30)
+            Markup span - Gen<Markup> - [<p>] - SpanEditHandler;Accepts:None - (30:0,30) - Tokens:3
+                SyntaxKind.OpenAngle;[<];
+                SyntaxKind.HtmlTextLiteral;[p];
+                SyntaxKind.CloseAngle;[>];
+        Markup span - Gen<Markup> - [Foo] - SpanEditHandler;Accepts:Any - (33:0,33) - Tokens:1
+            SyntaxKind.HtmlTextLiteral;[Foo];
+        Tag block - Gen<None> - 4 - (36:0,36)
+            Markup span - Gen<Markup> - [</p>] - SpanEditHandler;Accepts:None - (36:0,36) - Tokens:4
+                SyntaxKind.OpenAngle;[<];
+                SyntaxKind.ForwardSlash;[/];
+                SyntaxKind.HtmlTextLiteral;[p];
+                SyntaxKind.CloseAngle;[>];
+        Markup span - Gen<Markup> - [ ] - SpanEditHandler;Accepts:None - (40:0,40) - Tokens:1
+            SyntaxKind.Whitespace;[ ];
+    Code span - Gen<Stmt> - [}] - SpanEditHandler;Accepts:None - (41:0,41) - Tokens:1
+        SyntaxKind.RightBrace;[}];

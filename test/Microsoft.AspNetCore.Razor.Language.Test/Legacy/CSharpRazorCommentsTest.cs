@@ -8,11 +8,6 @@ namespace Microsoft.AspNetCore.Razor.Language.Legacy
 {
     public class CSharpRazorCommentsTest : CsHtmlMarkupParserTestBase
     {
-        public CSharpRazorCommentsTest()
-        {
-            UseBaselineTests = true;
-        }
-
         [Fact]
         public void UnterminatedRazorComment()
         {
@@ -45,6 +40,18 @@ namespace Microsoft.AspNetCore.Razor.Language.Legacy
                             + "    <text" + Environment.NewLine
                             + "    @**@" + Environment.NewLine
                             + "}");
+        }
+
+        [Fact]
+        public void RazorCommentInOpeningTagBlock()
+        {
+            ParseDocumentTest("<text @* razor comment *@></text>");
+        }
+
+        [Fact]
+        public void RazorCommentInClosingTagBlock()
+        {
+            ParseDocumentTest("<text></text @* razor comment *@>");
         }
 
         [Fact]

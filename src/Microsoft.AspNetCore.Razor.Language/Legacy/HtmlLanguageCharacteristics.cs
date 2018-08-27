@@ -3,10 +3,11 @@
 
 using System.Collections.Generic;
 using System.Diagnostics;
+using Microsoft.AspNetCore.Razor.Language.Syntax.InternalSyntax;
 
 namespace Microsoft.AspNetCore.Razor.Language.Legacy
 {
-    internal class HtmlLanguageCharacteristics : LanguageCharacteristics<HtmlTokenizer, HtmlSymbol, HtmlSymbolType>
+    internal class HtmlLanguageCharacteristics : LanguageCharacteristics<HtmlTokenizer>
     {
         private static readonly HtmlLanguageCharacteristics _instance = new HtmlLanguageCharacteristics();
 
@@ -19,50 +20,50 @@ namespace Microsoft.AspNetCore.Razor.Language.Legacy
             get { return _instance; }
         }
 
-        public override string GetSample(HtmlSymbolType type)
+        public override string GetSample(SyntaxKind type)
         {
             switch (type)
             {
-                case HtmlSymbolType.Text:
-                    return Resources.HtmlSymbol_Text;
-                case HtmlSymbolType.WhiteSpace:
-                    return Resources.HtmlSymbol_WhiteSpace;
-                case HtmlSymbolType.NewLine:
-                    return Resources.HtmlSymbol_NewLine;
-                case HtmlSymbolType.OpenAngle:
+                case SyntaxKind.HtmlTextLiteral:
+                    return Resources.HtmlToken_Text;
+                case SyntaxKind.Whitespace:
+                    return Resources.HtmlToken_WhiteSpace;
+                case SyntaxKind.NewLine:
+                    return Resources.HtmlToken_NewLine;
+                case SyntaxKind.OpenAngle:
                     return "<";
-                case HtmlSymbolType.Bang:
+                case SyntaxKind.Bang:
                     return "!";
-                case HtmlSymbolType.ForwardSlash:
+                case SyntaxKind.ForwardSlash:
                     return "/";
-                case HtmlSymbolType.QuestionMark:
+                case SyntaxKind.QuestionMark:
                     return "?";
-                case HtmlSymbolType.DoubleHyphen:
+                case SyntaxKind.DoubleHyphen:
                     return "--";
-                case HtmlSymbolType.LeftBracket:
+                case SyntaxKind.LeftBracket:
                     return "[";
-                case HtmlSymbolType.CloseAngle:
+                case SyntaxKind.CloseAngle:
                     return ">";
-                case HtmlSymbolType.RightBracket:
+                case SyntaxKind.RightBracket:
                     return "]";
-                case HtmlSymbolType.Equals:
+                case SyntaxKind.Equals:
                     return "=";
-                case HtmlSymbolType.DoubleQuote:
+                case SyntaxKind.DoubleQuote:
                     return "\"";
-                case HtmlSymbolType.SingleQuote:
+                case SyntaxKind.SingleQuote:
                     return "'";
-                case HtmlSymbolType.Transition:
+                case SyntaxKind.Transition:
                     return "@";
-                case HtmlSymbolType.Colon:
+                case SyntaxKind.Colon:
                     return ":";
-                case HtmlSymbolType.RazorComment:
-                    return Resources.HtmlSymbol_RazorComment;
-                case HtmlSymbolType.RazorCommentStar:
+                case SyntaxKind.RazorCommentLiteral:
+                    return Resources.HtmlToken_RazorComment;
+                case SyntaxKind.RazorCommentStar:
                     return "*";
-                case HtmlSymbolType.RazorCommentTransition:
+                case SyntaxKind.RazorCommentTransition:
                     return "@";
                 default:
-                    return Resources.Symbol_Unknown;
+                    return Resources.Token_Unknown;
             }
         }
 
@@ -71,57 +72,57 @@ namespace Microsoft.AspNetCore.Razor.Language.Legacy
             return new HtmlTokenizer(source);
         }
 
-        public override HtmlSymbolType FlipBracket(HtmlSymbolType bracket)
+        public override SyntaxKind FlipBracket(SyntaxKind bracket)
         {
             switch (bracket)
             {
-                case HtmlSymbolType.LeftBracket:
-                    return HtmlSymbolType.RightBracket;
-                case HtmlSymbolType.OpenAngle:
-                    return HtmlSymbolType.CloseAngle;
-                case HtmlSymbolType.RightBracket:
-                    return HtmlSymbolType.LeftBracket;
-                case HtmlSymbolType.CloseAngle:
-                    return HtmlSymbolType.OpenAngle;
+                case SyntaxKind.LeftBracket:
+                    return SyntaxKind.RightBracket;
+                case SyntaxKind.OpenAngle:
+                    return SyntaxKind.CloseAngle;
+                case SyntaxKind.RightBracket:
+                    return SyntaxKind.LeftBracket;
+                case SyntaxKind.CloseAngle:
+                    return SyntaxKind.OpenAngle;
                 default:
                     Debug.Fail("FlipBracket must be called with a bracket character");
-                    return HtmlSymbolType.Unknown;
+                    return SyntaxKind.Unknown;
             }
         }
 
-        public override HtmlSymbol CreateMarkerSymbol()
+        public override SyntaxToken CreateMarkerToken()
         {
-            return new HtmlSymbol(string.Empty, HtmlSymbolType.Unknown);
+            return SyntaxFactory.Token(SyntaxKind.Unknown, string.Empty);
         }
 
-        public override HtmlSymbolType GetKnownSymbolType(KnownSymbolType type)
+        public override SyntaxKind GetKnownTokenType(KnownTokenType type)
         {
             switch (type)
             {
-                case KnownSymbolType.CommentStart:
-                    return HtmlSymbolType.RazorCommentTransition;
-                case KnownSymbolType.CommentStar:
-                    return HtmlSymbolType.RazorCommentStar;
-                case KnownSymbolType.CommentBody:
-                    return HtmlSymbolType.RazorComment;
-                case KnownSymbolType.Identifier:
-                    return HtmlSymbolType.Text;
-                case KnownSymbolType.Keyword:
-                    return HtmlSymbolType.Text;
-                case KnownSymbolType.NewLine:
-                    return HtmlSymbolType.NewLine;
-                case KnownSymbolType.Transition:
-                    return HtmlSymbolType.Transition;
-                case KnownSymbolType.WhiteSpace:
-                    return HtmlSymbolType.WhiteSpace;
+                case KnownTokenType.CommentStart:
+                    return SyntaxKind.RazorCommentTransition;
+                case KnownTokenType.CommentStar:
+                    return SyntaxKind.RazorCommentStar;
+                case KnownTokenType.CommentBody:
+                    return SyntaxKind.RazorCommentLiteral;
+                case KnownTokenType.Identifier:
+                    return SyntaxKind.HtmlTextLiteral;
+                case KnownTokenType.Keyword:
+                    return SyntaxKind.HtmlTextLiteral;
+                case KnownTokenType.NewLine:
+                    return SyntaxKind.NewLine;
+                case KnownTokenType.Transition:
+                    return SyntaxKind.Transition;
+                case KnownTokenType.WhiteSpace:
+                    return SyntaxKind.Whitespace;
                 default:
-                    return HtmlSymbolType.Unknown;
+                    return SyntaxKind.Unknown;
             }
         }
 
-        protected override HtmlSymbol CreateSymbol(string content, HtmlSymbolType type, IReadOnlyList<RazorDiagnostic> errors)
+        protected override SyntaxToken CreateToken(string content, SyntaxKind kind, IReadOnlyList<RazorDiagnostic> errors)
         {
-            return new HtmlSymbol(content, type, errors);
+            return SyntaxFactory.Token(kind, content, errors);
         }
     }
 }

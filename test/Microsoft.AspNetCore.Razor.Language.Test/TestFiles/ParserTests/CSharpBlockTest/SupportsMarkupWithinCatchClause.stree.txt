@@ -1,0 +1,50 @@
+Statement block - Gen<None> - 59 - (0:0,0)
+    Code span - Gen<Stmt> - [try { var foo = new { } } catch(Foo Bar Baz) {] - SpanEditHandler;Accepts:Any - (0:0,0) - Tokens:28
+        SyntaxKind.Keyword;[try];
+        SyntaxKind.Whitespace;[ ];
+        SyntaxKind.LeftBrace;[{];
+        SyntaxKind.Whitespace;[ ];
+        SyntaxKind.Identifier;[var];
+        SyntaxKind.Whitespace;[ ];
+        SyntaxKind.Identifier;[foo];
+        SyntaxKind.Whitespace;[ ];
+        SyntaxKind.Assign;[=];
+        SyntaxKind.Whitespace;[ ];
+        SyntaxKind.Keyword;[new];
+        SyntaxKind.Whitespace;[ ];
+        SyntaxKind.LeftBrace;[{];
+        SyntaxKind.Whitespace;[ ];
+        SyntaxKind.RightBrace;[}];
+        SyntaxKind.Whitespace;[ ];
+        SyntaxKind.RightBrace;[}];
+        SyntaxKind.Whitespace;[ ];
+        SyntaxKind.Keyword;[catch];
+        SyntaxKind.LeftParenthesis;[(];
+        SyntaxKind.Identifier;[Foo];
+        SyntaxKind.Whitespace;[ ];
+        SyntaxKind.Identifier;[Bar];
+        SyntaxKind.Whitespace;[ ];
+        SyntaxKind.Identifier;[Baz];
+        SyntaxKind.RightParenthesis;[)];
+        SyntaxKind.Whitespace;[ ];
+        SyntaxKind.LeftBrace;[{];
+    Markup block - Gen<None> - 12 - (46:0,46)
+        Markup span - Gen<Markup> - [ ] - SpanEditHandler;Accepts:Any - (46:0,46) - Tokens:1
+            SyntaxKind.Whitespace;[ ];
+        Tag block - Gen<None> - 3 - (47:0,47)
+            Markup span - Gen<Markup> - [<p>] - SpanEditHandler;Accepts:None - (47:0,47) - Tokens:3
+                SyntaxKind.OpenAngle;[<];
+                SyntaxKind.HtmlTextLiteral;[p];
+                SyntaxKind.CloseAngle;[>];
+        Markup span - Gen<Markup> - [Foo] - SpanEditHandler;Accepts:Any - (50:0,50) - Tokens:1
+            SyntaxKind.HtmlTextLiteral;[Foo];
+        Tag block - Gen<None> - 4 - (53:0,53)
+            Markup span - Gen<Markup> - [</p>] - SpanEditHandler;Accepts:None - (53:0,53) - Tokens:4
+                SyntaxKind.OpenAngle;[<];
+                SyntaxKind.ForwardSlash;[/];
+                SyntaxKind.HtmlTextLiteral;[p];
+                SyntaxKind.CloseAngle;[>];
+        Markup span - Gen<Markup> - [ ] - SpanEditHandler;Accepts:None - (57:0,57) - Tokens:1
+            SyntaxKind.Whitespace;[ ];
+    Code span - Gen<Stmt> - [}] - SpanEditHandler;Accepts:Any - (58:0,58) - Tokens:1
+        SyntaxKind.RightBrace;[}];

@@ -1,0 +1,23 @@
+Statement block - Gen<None> - 23 - (0:0,0)
+    Transition span - Gen<None> - [@] - SpanEditHandler;Accepts:None - (0:0,0) - Tokens:1
+        SyntaxKind.Transition;[@];
+    Code span - Gen<Stmt> - [while(true) { ] - SpanEditHandler;Accepts:Any - (1:0,1) - Tokens:7
+        SyntaxKind.Keyword;[while];
+        SyntaxKind.LeftParenthesis;[(];
+        SyntaxKind.Keyword;[true];
+        SyntaxKind.RightParenthesis;[)];
+        SyntaxKind.Whitespace;[ ];
+        SyntaxKind.LeftBrace;[{];
+        SyntaxKind.Whitespace;[ ];
+    Expression block - Gen<Expr> - 6 - (15:0,15)
+        Transition span - Gen<None> - [@] - SpanEditHandler;Accepts:None - (15:0,15) - Tokens:1
+            SyntaxKind.Transition;[@];
+        MetaCode span - Gen<None> - [(] - SpanEditHandler;Accepts:None - (16:0,16) - Tokens:1
+            SyntaxKind.LeftParenthesis;[(];
+        Code span - Gen<Expr> - [foo] - SpanEditHandler;Accepts:Any - (17:0,17) - Tokens:1
+            SyntaxKind.Identifier;[foo];
+        MetaCode span - Gen<None> - [)] - SpanEditHandler;Accepts:None - (20:0,20) - Tokens:1
+            SyntaxKind.RightParenthesis;[)];
+    Code span - Gen<Stmt> - [ }] - SpanEditHandler;Accepts:None - (21:0,21) - Tokens:2
+        SyntaxKind.Whitespace;[ ];
+        SyntaxKind.RightBrace;[}];

@@ -1,0 +1,14 @@
+Markup block - Gen<None> - 49 - (0:0,0)
+    Tag block - Gen<TagHelper> - 49 - (0:0,0) - p - ptaghelper
+        StartTagAndEndTag - <p class="foo" style="color:red;"> ... </p>
+        class - DoubleQuotes
+            Markup span - Gen<Markup> - [foo] - SpanEditHandler;Accepts:Any - (10:0,10) - Tokens:1
+                SyntaxKind.HtmlTextLiteral;[foo];
+        style - DoubleQuotes
+            Markup span - Gen<Markup> - [color:red;] - SpanEditHandler;Accepts:Any - (22:0,22) - Tokens:1
+                SyntaxKind.HtmlTextLiteral;[color:red;];
+        SyntaxKind.HtmlText - [Hello World] - [34..45) - FullWidth: 11 - Slots: 1
+            SyntaxKind.List - [Hello World] - [34..45) - FullWidth: 11 - Slots: 3
+                SyntaxKind.HtmlTextLiteral;[Hello];
+                SyntaxKind.Whitespace;[ ];
+                SyntaxKind.HtmlTextLiteral;[World];

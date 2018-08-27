@@ -3,14 +3,16 @@
 
 using System;
 using System.Collections.Generic;
+using System.Diagnostics;
 using System.Linq;
+using Microsoft.AspNetCore.Razor.Language.Syntax.InternalSyntax;
 
 namespace Microsoft.AspNetCore.Razor.Language.Legacy
 {
     internal class SpanBuilder
     {
         private SourceLocation _start;
-        private List<ISymbol> _symbols;
+        private List<SyntaxToken> _tokens;
         private SourceLocationTracker _tracker;
 
         public SpanBuilder(Span original)
@@ -20,7 +22,7 @@ namespace Microsoft.AspNetCore.Razor.Language.Legacy
             _start = original.Start;
             ChunkGenerator = original.ChunkGenerator;
 
-            _symbols = new List<ISymbol>(original.Symbols);
+            _tokens = new List<SyntaxToken>(original.Tokens.Select(t =>t.Green));
             _tracker = new SourceLocationTracker(original.Start);
         }
 
@@ -32,6 +34,8 @@ namespace Microsoft.AspNetCore.Razor.Language.Legacy
 
             Start = location;
         }
+
+        public Syntax.GreenNode SyntaxNode { get; private set; }
 
         public ISpanChunkGenerator ChunkGenerator { get; set; }
 
@@ -49,16 +53,16 @@ namespace Microsoft.AspNetCore.Razor.Language.Legacy
 
         public SpanKindInternal Kind { get; set; }
 
-        public IReadOnlyList<ISymbol> Symbols
+        public IReadOnlyList<SyntaxToken> Tokens
         {
             get
             {
-                if (_symbols == null)
+                if (_tokens == null)
                 {
-                    _symbols = new List<ISymbol>();
+                    _tokens = new List<SyntaxToken>();
                 }
 
-                return _symbols;
+                return _tokens;
             }
         }
 
@@ -68,35 +72,31 @@ namespace Microsoft.AspNetCore.Razor.Language.Legacy
         {
             // Need to potentially allocate a new list because Span.ReplaceWith takes ownership
             // of the original list.
-            _symbols = null;
-            _symbols = new List<ISymbol>();
+            _tokens = null;
+            _tokens = new List<SyntaxToken>();
 
-            EditHandler = SpanEditHandler.CreateDefault((content) => Enumerable.Empty<ISymbol>());
+            EditHandler = SpanEditHandler.CreateDefault((content) => Enumerable.Empty<SyntaxToken>());
             ChunkGenerator = SpanChunkGenerator.Null;
             Start = SourceLocation.Undefined;
         }
 
-        public Span Build()
+        public Span Build(SyntaxKind syntaxKind = SyntaxKind.Unknown)
         {
+            SyntaxNode = GetSyntaxNode(syntaxKind);
+
             var span = new Span(this);
-            
-            for (var i = 0; i < span.Symbols.Count; i++)
-            {
-                var symbol = span.Symbols[i];
-                symbol.Parent = span;
-            }
 
             return span;
         }
 
-        public void ClearSymbols()
+        public void ClearTokens()
         {
-            _symbols?.Clear();
+            _tokens?.Clear();
         }
 
-        public void Accept(ISymbol symbol)
+        public void Accept(SyntaxToken token)
         {
-            if (symbol == null)
+            if (token == null)
             {
                 return;
             }
@@ -106,8 +106,30 @@ namespace Microsoft.AspNetCore.Razor.Language.Legacy
                 throw new InvalidOperationException("SpanBuilder must have a valid location");
             }
 
-            _symbols.Add(symbol);
-            _tracker.UpdateLocation(symbol.Content);
+            _tokens.Add(token);
+            _tracker.UpdateLocation(token.Content);
+        }
+
+        private Syntax.GreenNode GetSyntaxNode(SyntaxKind syntaxKind)
+        {
+            if (syntaxKind == SyntaxKind.HtmlText)
+            {
+                var textTokens = new SyntaxListBuilder<SyntaxToken>(SyntaxListBuilder.Create());
+                foreach (var token in Tokens)
+                {
+                    if (token.Kind == SyntaxKind.Unknown)
+                    {
+                        Debug.Assert(false, $"Unexpected token {token.Kind}");
+                        continue;
+                    }
+
+                    textTokens.Add(token);
+                }
+                var textResult = textTokens.ToList();
+                return SyntaxFactory.HtmlText(new SyntaxList<SyntaxToken>(textResult.Node));
+            }
+
+            return null;
         }
     }
 }

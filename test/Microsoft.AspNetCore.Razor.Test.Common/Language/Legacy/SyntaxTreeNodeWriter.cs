@@ -3,8 +3,10 @@
 
 using System;
 using System.Collections.Generic;
+using System.Diagnostics;
 using System.IO;
 using System.Linq;
+using Microsoft.AspNetCore.Razor.Language.Syntax;
 
 namespace Microsoft.AspNetCore.Razor.Language.Legacy
 {
@@ -40,7 +42,7 @@ namespace Microsoft.AspNetCore.Razor.Language.Legacy
                 Write(tagHelperBlock.TagName);
 
                 // Write descriptors
-                foreach (var descriptor in tagHelperBlock.Binding.Descriptors)
+                foreach (var descriptor in tagHelperBlock.Binding?.Descriptors ?? Array.Empty<TagHelperDescriptor>())
                 {
                     WriteSeparator();
 
@@ -173,6 +175,12 @@ namespace Microsoft.AspNetCore.Razor.Language.Legacy
 
         protected void WriteSpan(Span span)
         {
+            if (span.SyntaxNode != null)
+            {
+                WriteSyntaxNode(span.SyntaxNode);
+                return;
+            }
+
             WriteIndent();
             Write($"{span.Kind} span");
             WriteSeparator();
@@ -184,37 +192,59 @@ namespace Microsoft.AspNetCore.Razor.Language.Legacy
             WriteSeparator();
             WriteSourceLocation(span.Start);
             WriteSeparator();
-            Write($"Symbols:{span.Symbols.Count}");
+            Write($"Tokens:{span.Tokens.Count}");
 
-            // Write symbols
+            // Write tokens
             Depth++;
-            foreach (var symbol in span.Symbols)
+            foreach (var token in span.Tokens)
             {
                 WriteNewLine();
-                WriteIndent();
-                WriteSymbol(symbol);
+                WriteSyntaxToken(token);
             }
             Depth--;
         }
 
-        protected void WriteSymbol(ISymbol symbol)
+        private void WriteSyntaxNode(SyntaxNode syntaxNode)
         {
-            var symbolType = string.Empty;
-            IEnumerable<RazorDiagnostic> diagnostics = RazorDiagnostic.EmptyArray;
+            WriteIndent();
+            Write($"{typeof(SyntaxKind).Name}.{syntaxNode.Kind}");
+            WriteSeparator();
+            Write($"[{syntaxNode.ToFullString()}]");
+            WriteSeparator();
+            Write($"[{syntaxNode.Position}..{syntaxNode.EndPosition})");
+            WriteSeparator();
+            Write($"FullWidth: {syntaxNode.FullWidth}");
+            WriteSeparator();
+            Write($"Slots: {syntaxNode.SlotCount}");
 
-            if (symbol is HtmlSymbol htmlSymbol)
+            // Write tokens
+            Depth++;
+            for (var i = 0; i < syntaxNode.SlotCount; i++)
             {
-                symbolType = $"{htmlSymbol.Type.GetType().Name}.{htmlSymbol.Type}";
-                diagnostics = htmlSymbol.Errors;
-            }
-            else if (symbol is CSharpSymbol csharpSymbol)
-            {
-                symbolType = $"{csharpSymbol.Type.GetType().Name}.{csharpSymbol.Type}";
-                diagnostics = csharpSymbol.Errors;
-            }
+                var slot = syntaxNode.GetNodeSlot(i);
+                if (slot == null)
+                {
+                    continue;
+                }
 
-            var symbolString = $"{symbolType};[{symbol.Content}];{string.Join(", ", diagnostics.Select(diagnostic => diagnostic.Id + diagnostic.Span))}";
-            Write(symbolString);
+                WriteNewLine();
+                if (slot.IsList || !(slot is SyntaxToken syntaxToken))
+                {
+                    WriteSyntaxNode(slot);
+                    continue;
+                }
+
+                WriteSyntaxToken(syntaxToken);
+            }
+            Depth--;
+        }
+
+        protected void WriteSyntaxToken(SyntaxToken syntaxToken)
+        {
+            WriteIndent();
+            var diagnostics = syntaxToken.GetDiagnostics();
+            var tokenString = $"{typeof(SyntaxKind).Name}.{syntaxToken.Kind};[{syntaxToken.Content}];{string.Join(", ", diagnostics.Select(diagnostic => diagnostic.Id + diagnostic.Span))}";
+            Write(tokenString);
         }
 
         protected void WriteSourceLocation(SourceLocation location)

@@ -1,0 +1,29 @@
+Markup block - Gen<None> - 39 - (0:0,0)
+    Tag block - Gen<None> - 8 - (0:0,0)
+        Markup span - Gen<Markup> - [<script>] - SpanEditHandler;Accepts:Any - (0:0,0) - Tokens:3
+            SyntaxKind.OpenAngle;[<];
+            SyntaxKind.HtmlTextLiteral;[script];
+            SyntaxKind.CloseAngle;[>];
+    Markup span - Gen<Markup> - [var four = 4; /* </ */] - SpanEditHandler;Accepts:Any - (8:0,8) - Tokens:16
+        SyntaxKind.HtmlTextLiteral;[var];
+        SyntaxKind.Whitespace;[ ];
+        SyntaxKind.HtmlTextLiteral;[four];
+        SyntaxKind.Whitespace;[ ];
+        SyntaxKind.Equals;[=];
+        SyntaxKind.Whitespace;[ ];
+        SyntaxKind.HtmlTextLiteral;[4;];
+        SyntaxKind.Whitespace;[ ];
+        SyntaxKind.ForwardSlash;[/];
+        SyntaxKind.HtmlTextLiteral;[*];
+        SyntaxKind.Whitespace;[ ];
+        SyntaxKind.OpenAngle;[<];
+        SyntaxKind.ForwardSlash;[/];
+        SyntaxKind.Whitespace;[ ];
+        SyntaxKind.HtmlTextLiteral;[*];
+        SyntaxKind.ForwardSlash;[/];
+    Tag block - Gen<None> - 9 - (30:0,30)
+        Markup span - Gen<Markup> - [</script>] - SpanEditHandler;Accepts:Any - (30:0,30) - Tokens:4
+            SyntaxKind.OpenAngle;[<];
+            SyntaxKind.ForwardSlash;[/];
+            SyntaxKind.HtmlTextLiteral;[script];
+            SyntaxKind.CloseAngle;[>];

@@ -5,6 +5,7 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
+using Microsoft.AspNetCore.Razor.Language.Syntax.InternalSyntax;
 using Xunit;
 
 namespace Microsoft.AspNetCore.Razor.Language.Legacy
@@ -57,51 +58,51 @@ namespace Microsoft.AspNetCore.Razor.Language.Legacy
         }
 
         [Fact]
-        public void LookaheadUntil_PassesThePreviousSymbolsInTheSameOrder()
+        public void LookaheadUntil_PassesThePreviousTokensInTheSameOrder()
         {
             // Arrange
             var tokenizer = CreateContentTokenizer("asdf--fvd--<");
 
             // Act
             var i = 3;
-            IEnumerable<HtmlSymbol> previousSymbols = null;
-            var symbolFound = tokenizer.LookaheadUntil((s, p) =>
+            IEnumerable<SyntaxToken> previousTokens = null;
+            var tokenFound = tokenizer.LookaheadUntil((s, p) =>
             {
-                previousSymbols = p;
+                previousTokens = p;
                 return --i == 0;
             });
 
             // Assert
-            Assert.Equal(4, previousSymbols.Count());
+            Assert.Equal(4, previousTokens.Count());
 
             // For the very first element, there will be no previous items, so null is expected
             var orderIndex = 0;
-            Assert.Null(previousSymbols.ElementAt(orderIndex++));
-            Assert.Equal(new HtmlSymbol("asdf", HtmlSymbolType.Text), previousSymbols.ElementAt(orderIndex++));
-            Assert.Equal(new HtmlSymbol("--", HtmlSymbolType.DoubleHyphen), previousSymbols.ElementAt(orderIndex++));
-            Assert.Equal(new HtmlSymbol("fvd", HtmlSymbolType.Text), previousSymbols.ElementAt(orderIndex++));
+            Assert.Null(previousTokens.ElementAt(orderIndex++));
+            AssertTokenEqual(SyntaxFactory.Token(SyntaxKind.HtmlTextLiteral, "asdf"), previousTokens.ElementAt(orderIndex++));
+            AssertTokenEqual(SyntaxFactory.Token(SyntaxKind.DoubleHyphen, "--"), previousTokens.ElementAt(orderIndex++));
+            AssertTokenEqual(SyntaxFactory.Token(SyntaxKind.HtmlTextLiteral, "fvd"), previousTokens.ElementAt(orderIndex++));
         }
 
         [Fact]
-        public void LookaheadUntil_ReturnsFalseAfterIteratingOverAllSymbolsIfConditionIsNotMet()
+        public void LookaheadUntil_ReturnsFalseAfterIteratingOverAllTokensIfConditionIsNotMet()
         {
             // Arrange
             var tokenizer = CreateContentTokenizer("asdf--fvd");
 
             // Act
-            var symbols = new Stack<HtmlSymbol>();
-            var symbolFound = tokenizer.LookaheadUntil((s, p) =>
+            var tokens = new Stack<SyntaxToken>();
+            var tokenFound = tokenizer.LookaheadUntil((s, p) =>
             {
-                symbols.Push(s);
+                tokens.Push(s);
                 return false;
             });
 
             // Assert
-            Assert.False(symbolFound);
-            Assert.Equal(3, symbols.Count);
-            Assert.Equal(new HtmlSymbol("fvd", HtmlSymbolType.Text), symbols.Pop());
-            Assert.Equal(new HtmlSymbol("--", HtmlSymbolType.DoubleHyphen), symbols.Pop());
-            Assert.Equal(new HtmlSymbol("asdf", HtmlSymbolType.Text), symbols.Pop());
+            Assert.False(tokenFound);
+            Assert.Equal(3, tokens.Count);
+            AssertTokenEqual(SyntaxFactory.Token(SyntaxKind.HtmlTextLiteral, "fvd"), tokens.Pop());
+            AssertTokenEqual(SyntaxFactory.Token(SyntaxKind.DoubleHyphen, "--"), tokens.Pop());
+            AssertTokenEqual(SyntaxFactory.Token(SyntaxKind.HtmlTextLiteral, "asdf"), tokens.Pop());
         }
 
         [Fact]
@@ -111,18 +112,18 @@ namespace Microsoft.AspNetCore.Razor.Language.Legacy
             var tokenizer = CreateContentTokenizer("asdf--fvd");
 
             // Act
-            var symbols = new Stack<HtmlSymbol>();
-            var symbolFound = tokenizer.LookaheadUntil((s, p) =>
+            var tokens = new Stack<SyntaxToken>();
+            var tokenFound = tokenizer.LookaheadUntil((s, p) =>
             {
-                symbols.Push(s);
-                return s.Type == HtmlSymbolType.DoubleHyphen;
+                tokens.Push(s);
+                return s.Kind == SyntaxKind.DoubleHyphen;
             });
 
             // Assert
-            Assert.True(symbolFound);
-            Assert.Equal(2, symbols.Count);
-            Assert.Equal(new HtmlSymbol("--", HtmlSymbolType.DoubleHyphen), symbols.Pop());
-            Assert.Equal(new HtmlSymbol("asdf", HtmlSymbolType.Text), symbols.Pop());
+            Assert.True(tokenFound);
+            Assert.Equal(2, tokens.Count);
+            AssertTokenEqual(SyntaxFactory.Token(SyntaxKind.DoubleHyphen, "--"), tokens.Pop());
+            AssertTokenEqual(SyntaxFactory.Token(SyntaxKind.HtmlTextLiteral, "asdf"), tokens.Pop());
         }
 
         private static TestTokenizerBackedParser CreateContentTokenizer(string content)
@@ -135,7 +136,12 @@ namespace Microsoft.AspNetCore.Razor.Language.Legacy
             return tokenizer;
         }
 
-        private class ExposedTokenizer : Tokenizer<CSharpSymbol, CSharpSymbolType>
+        private static void AssertTokenEqual(SyntaxToken expected, SyntaxToken actual)
+        {
+            Assert.True(expected.IsEquivalentTo(actual), "Tokens not equal.");
+        }
+
+        private class ExposedTokenizer : Tokenizer
         {
             public ExposedTokenizer(string input)
                 : base(new SeekableTextReader(input, filePath: null))
@@ -150,7 +156,7 @@ namespace Microsoft.AspNetCore.Razor.Language.Legacy
                 }
             }
 
-            public override CSharpSymbolType RazorCommentStarType
+            public override SyntaxKind RazorCommentStarKind
             {
                 get
                 {
@@ -158,7 +164,7 @@ namespace Microsoft.AspNetCore.Razor.Language.Legacy
                 }
             }
 
-            public override CSharpSymbolType RazorCommentTransitionType
+            public override SyntaxKind RazorCommentTransitionKind
             {
                 get
                 {
@@ -166,7 +172,7 @@ namespace Microsoft.AspNetCore.Razor.Language.Legacy
                 }
             }
 
-            public override CSharpSymbolType RazorCommentType
+            public override SyntaxKind RazorCommentKind
             {
                 get
                 {
@@ -182,9 +188,9 @@ namespace Microsoft.AspNetCore.Razor.Language.Legacy
                 }
             }
 
-            protected override CSharpSymbol CreateSymbol(
+            protected override SyntaxToken CreateToken(
                 string content,
-                CSharpSymbolType type,
+                SyntaxKind type,
                 IReadOnlyList<RazorDiagnostic> errors)
             {
                 throw new NotImplementedException();
@@ -196,9 +202,9 @@ namespace Microsoft.AspNetCore.Razor.Language.Legacy
             }
         }
 
-        private class TestTokenizerBackedParser : TokenizerBackedParser<HtmlTokenizer, HtmlSymbol, HtmlSymbolType>
+        private class TestTokenizerBackedParser : TokenizerBackedParser<HtmlTokenizer>
         {
-            internal TestTokenizerBackedParser(LanguageCharacteristics<HtmlTokenizer, HtmlSymbol, HtmlSymbolType> language, ParserContext context) : base(language, context)
+            internal TestTokenizerBackedParser(LanguageCharacteristics<HtmlTokenizer> language, ParserContext context) : base(language, context)
             {
             }
 
@@ -207,12 +213,12 @@ namespace Microsoft.AspNetCore.Razor.Language.Legacy
                 throw new NotImplementedException();
             }
 
-            protected override bool SymbolTypeEquals(HtmlSymbolType x, HtmlSymbolType y)
+            protected override bool TokenKindEquals(SyntaxKind x, SyntaxKind y)
             {
                 throw new NotImplementedException();
             }
 
-            internal new bool LookaheadUntil(Func<HtmlSymbol, IEnumerable<HtmlSymbol>, bool> condition)
+            internal new bool LookaheadUntil(Func<SyntaxToken, IEnumerable<SyntaxToken>, bool> condition)
             {
                 return base.LookaheadUntil(condition);
             }

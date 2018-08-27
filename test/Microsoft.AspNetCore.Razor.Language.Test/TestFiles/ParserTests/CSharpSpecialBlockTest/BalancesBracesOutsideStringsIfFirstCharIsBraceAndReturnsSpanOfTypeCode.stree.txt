@@ -1,0 +1,26 @@
+Statement block - Gen<None> - 52 - (0:0,0)
+    MetaCode span - Gen<None> - [{] - SpanEditHandler;Accepts:None - (0:0,0) - Tokens:1
+        SyntaxKind.LeftBrace;[{];
+    Code span - Gen<Stmt> - [foo"b}ar" if(condition) { string.Format("{0}"); } ] - AutoCompleteEditHandler;Accepts:Any,AutoComplete:[<null>];AtEOL - (1:0,1) - Tokens:20
+        SyntaxKind.Identifier;[foo];
+        SyntaxKind.StringLiteral;["b}ar"];
+        SyntaxKind.Whitespace;[ ];
+        SyntaxKind.Keyword;[if];
+        SyntaxKind.LeftParenthesis;[(];
+        SyntaxKind.Identifier;[condition];
+        SyntaxKind.RightParenthesis;[)];
+        SyntaxKind.Whitespace;[ ];
+        SyntaxKind.LeftBrace;[{];
+        SyntaxKind.Whitespace;[ ];
+        SyntaxKind.Keyword;[string];
+        SyntaxKind.Dot;[.];
+        SyntaxKind.Identifier;[Format];
+        SyntaxKind.LeftParenthesis;[(];
+        SyntaxKind.StringLiteral;["{0}"];
+        SyntaxKind.RightParenthesis;[)];
+        SyntaxKind.Semicolon;[;];
+        SyntaxKind.Whitespace;[ ];
+        SyntaxKind.RightBrace;[}];
+        SyntaxKind.Whitespace;[ ];
+    MetaCode span - Gen<None> - [}] - SpanEditHandler;Accepts:None - (51:0,51) - Tokens:1
+        SyntaxKind.RightBrace;[}];

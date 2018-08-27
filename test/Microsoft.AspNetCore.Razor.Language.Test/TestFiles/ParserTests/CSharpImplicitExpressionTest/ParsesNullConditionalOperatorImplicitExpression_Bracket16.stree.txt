@@ -1,0 +1,17 @@
+Expression block - Gen<Expr> - 20 - (0:0,0)
+    Transition span - Gen<None> - [@] - SpanEditHandler;Accepts:None - (0:0,0) - Tokens:1
+        SyntaxKind.Transition;[@];
+    Code span - Gen<Expr> - [val?[abc?.gef?[-1]]] - ImplicitExpressionEditHandler;Accepts:NonWhitespace;ImplicitExpression[RTD];K14 - (1:0,1) - Tokens:13
+        SyntaxKind.Identifier;[val];
+        SyntaxKind.QuestionMark;[?];
+        SyntaxKind.LeftBracket;[[];
+        SyntaxKind.Identifier;[abc];
+        SyntaxKind.QuestionMark;[?];
+        SyntaxKind.Dot;[.];
+        SyntaxKind.Identifier;[gef];
+        SyntaxKind.QuestionMark;[?];
+        SyntaxKind.LeftBracket;[[];
+        SyntaxKind.Minus;[-];
+        SyntaxKind.IntegerLiteral;[1];
+        SyntaxKind.RightBracket;[]];
+        SyntaxKind.RightBracket;[]];

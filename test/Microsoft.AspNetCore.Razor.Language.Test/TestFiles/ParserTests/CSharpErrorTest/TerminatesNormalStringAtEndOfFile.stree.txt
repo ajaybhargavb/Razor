@@ -1,0 +1,16 @@
+Statement block - Gen<None> - 45 - (0:0,0)
+    Code span - Gen<Stmt> - [if(foo) { var foo = "blah blah blah blah blah] - SpanEditHandler;Accepts:Any - (0:0,0) - Tokens:14
+        SyntaxKind.Keyword;[if];
+        SyntaxKind.LeftParenthesis;[(];
+        SyntaxKind.Identifier;[foo];
+        SyntaxKind.RightParenthesis;[)];
+        SyntaxKind.Whitespace;[ ];
+        SyntaxKind.LeftBrace;[{];
+        SyntaxKind.Whitespace;[ ];
+        SyntaxKind.Identifier;[var];
+        SyntaxKind.Whitespace;[ ];
+        SyntaxKind.Identifier;[foo];
+        SyntaxKind.Whitespace;[ ];
+        SyntaxKind.Assign;[=];
+        SyntaxKind.Whitespace;[ ];
+        SyntaxKind.StringLiteral;["blah blah blah blah blah];RZ1000(20:0,20 [1] )

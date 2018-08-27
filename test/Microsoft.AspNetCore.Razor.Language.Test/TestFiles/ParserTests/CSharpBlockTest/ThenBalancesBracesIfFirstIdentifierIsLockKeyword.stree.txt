@@ -1,0 +1,18 @@
+Statement block - Gen<None> - 44 - (0:0,0)
+    Code span - Gen<Stmt> - [lock(foo) { Debug.WriteLine(@"foo } bar"); }] - SpanEditHandler;Accepts:None - (0:0,0) - Tokens:16
+        SyntaxKind.Keyword;[lock];
+        SyntaxKind.LeftParenthesis;[(];
+        SyntaxKind.Identifier;[foo];
+        SyntaxKind.RightParenthesis;[)];
+        SyntaxKind.Whitespace;[ ];
+        SyntaxKind.LeftBrace;[{];
+        SyntaxKind.Whitespace;[ ];
+        SyntaxKind.Identifier;[Debug];
+        SyntaxKind.Dot;[.];
+        SyntaxKind.Identifier;[WriteLine];
+        SyntaxKind.LeftParenthesis;[(];
+        SyntaxKind.StringLiteral;[@"foo } bar"];
+        SyntaxKind.RightParenthesis;[)];
+        SyntaxKind.Semicolon;[;];
+        SyntaxKind.Whitespace;[ ];
+        SyntaxKind.RightBrace;[}];

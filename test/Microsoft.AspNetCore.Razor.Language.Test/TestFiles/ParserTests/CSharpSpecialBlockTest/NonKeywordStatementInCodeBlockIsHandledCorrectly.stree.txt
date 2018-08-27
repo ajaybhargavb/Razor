@@ -1,0 +1,26 @@
+Statement block - Gen<None> - 56 - (0:0,0)
+    MetaCode span - Gen<None> - [{] - SpanEditHandler;Accepts:None - (0:0,0) - Tokens:1
+        SyntaxKind.LeftBrace;[{];
+    Code span - Gen<Stmt> - [LF    List<dynamic> photos = gallery.Photo.ToList();LF] - AutoCompleteEditHandler;Accepts:Any,AutoComplete:[<null>];AtEOL - (1:0,1) - Tokens:20
+        SyntaxKind.NewLine;[LF];
+        SyntaxKind.Whitespace;[    ];
+        SyntaxKind.Identifier;[List];
+        SyntaxKind.LessThan;[<];
+        SyntaxKind.Identifier;[dynamic];
+        SyntaxKind.GreaterThan;[>];
+        SyntaxKind.Whitespace;[ ];
+        SyntaxKind.Identifier;[photos];
+        SyntaxKind.Whitespace;[ ];
+        SyntaxKind.Assign;[=];
+        SyntaxKind.Whitespace;[ ];
+        SyntaxKind.Identifier;[gallery];
+        SyntaxKind.Dot;[.];
+        SyntaxKind.Identifier;[Photo];
+        SyntaxKind.Dot;[.];
+        SyntaxKind.Identifier;[ToList];
+        SyntaxKind.LeftParenthesis;[(];
+        SyntaxKind.RightParenthesis;[)];
+        SyntaxKind.Semicolon;[;];
+        SyntaxKind.NewLine;[LF];
+    MetaCode span - Gen<None> - [}] - SpanEditHandler;Accepts:None - (55:2,0) - Tokens:1
+        SyntaxKind.RightBrace;[}];

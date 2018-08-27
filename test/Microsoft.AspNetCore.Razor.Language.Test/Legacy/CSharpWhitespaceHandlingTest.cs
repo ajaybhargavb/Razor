@@ -8,13 +8,8 @@ namespace Microsoft.AspNetCore.Razor.Language.Legacy
 {
     public class CSharpWhitespaceHandlingTest : CsHtmlMarkupParserTestBase
     {
-        public CSharpWhitespaceHandlingTest()
-        {
-            UseBaselineTests = true;
-        }
-
         [Fact]
-        public void StatementBlockDoesNotAcceptTrailingNewlineIfNewlinesAreSignificantToAncestor()
+        public void StmtBlockDoesNotAcceptTrailingNewlineIfTheyAreSignificantToAncestor()
         {
             ParseBlockTest("@: @if (true) { }" + Environment.NewLine + "}");
         }

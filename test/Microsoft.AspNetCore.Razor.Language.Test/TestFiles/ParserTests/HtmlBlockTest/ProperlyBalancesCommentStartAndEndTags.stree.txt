@@ -1,0 +1,17 @@
+Markup block - Gen<None> - 18 - (0:0,0)
+    HtmlComment block - Gen<None> - 18 - (0:0,0)
+        Markup span - Gen<Markup> - [<!--] - SpanEditHandler;Accepts:None - (0:0,0) - Tokens:3
+            SyntaxKind.OpenAngle;[<];
+            SyntaxKind.Bang;[!];
+            SyntaxKind.DoubleHyphen;[--];
+        Markup span - Gen<Markup> - [<foo></bar>] - SpanEditHandler;Accepts:Whitespace - (4:0,4) - Tokens:7
+            SyntaxKind.OpenAngle;[<];
+            SyntaxKind.HtmlTextLiteral;[foo];
+            SyntaxKind.CloseAngle;[>];
+            SyntaxKind.OpenAngle;[<];
+            SyntaxKind.ForwardSlash;[/];
+            SyntaxKind.HtmlTextLiteral;[bar];
+            SyntaxKind.CloseAngle;[>];
+        Markup span - Gen<Markup> - [-->] - SpanEditHandler;Accepts:None - (15:0,15) - Tokens:2
+            SyntaxKind.DoubleHyphen;[--];
+            SyntaxKind.CloseAngle;[>];

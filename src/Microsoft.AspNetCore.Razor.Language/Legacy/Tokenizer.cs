@@ -5,12 +5,11 @@ using System;
 using System.Collections.Generic;
 using System.Diagnostics;
 using System.Text;
+using Microsoft.AspNetCore.Razor.Language.Syntax.InternalSyntax;
 
 namespace Microsoft.AspNetCore.Razor.Language.Legacy
 {
-    internal abstract partial class Tokenizer<TSymbol, TSymbolType> : ITokenizer
-        where TSymbolType : struct
-        where TSymbol : SymbolBase<TSymbolType>
+    internal abstract class Tokenizer : ITokenizer
     {
         protected Tokenizer(ITextDocument source)
         {
@@ -22,7 +21,7 @@ namespace Microsoft.AspNetCore.Razor.Language.Legacy
             Source = source;
             Buffer = new StringBuilder();
             CurrentErrors = new List<RazorDiagnostic>();
-            StartSymbol();
+            StartToken();
         }
 
         protected List<RazorDiagnostic> CurrentErrors { get; }
@@ -31,7 +30,7 @@ namespace Microsoft.AspNetCore.Razor.Language.Legacy
 
         protected int? CurrentState { get; set; }
 
-        protected TSymbol CurrentSymbol { get; private set; }
+        protected SyntaxToken CurrenSyntaxToken { get; private set; }
 
         public ITextDocument Source { get; private set; }
 
@@ -42,9 +41,9 @@ namespace Microsoft.AspNetCore.Razor.Language.Legacy
             get { return Source.Peek() == -1; }
         }
 
-        public abstract TSymbolType RazorCommentStarType { get; }
-        public abstract TSymbolType RazorCommentType { get; }
-        public abstract TSymbolType RazorCommentTransitionType { get; }
+        public abstract SyntaxKind RazorCommentStarKind { get; }
+        public abstract SyntaxKind RazorCommentKind { get; }
+        public abstract SyntaxKind RazorCommentTransitionKind { get; }
 
         protected bool HaveContent
         {
@@ -64,27 +63,27 @@ namespace Microsoft.AspNetCore.Razor.Language.Legacy
 
         public SourceLocation CurrentStart { get; private set; }
 
-        protected abstract TSymbol CreateSymbol(string content, TSymbolType type, IReadOnlyList<RazorDiagnostic> errors);
+        protected abstract SyntaxToken CreateToken(string content, SyntaxKind type, IReadOnlyList<RazorDiagnostic> errors);
 
         protected abstract StateResult Dispatch();
 
-        ISymbol ITokenizer.NextSymbol()
+        SyntaxToken ITokenizer.NextToken()
         {
-            return NextSymbol();
+            return NextToken();
         }
 
-        public virtual TSymbol NextSymbol()
+        public virtual SyntaxToken NextToken()
         {
             // Post-Condition: Buffer should be empty at the start of Next()
             Debug.Assert(Buffer.Length == 0);
-            StartSymbol();
+            StartToken();
 
             if (EndOfFile)
             {
                 return null;
             }
 
-            var symbol = Turn();
+            var token = Turn();
 
             // Post-Condition: Buffer should be empty at the end of Next()
             Debug.Assert(Buffer.Length == 0);
@@ -92,10 +91,10 @@ namespace Microsoft.AspNetCore.Razor.Language.Legacy
             // Post-Condition: Token should be non-zero length unless we're at EOF.
             Debug.Assert(EndOfFile || !CurrentStart.Equals(CurrentLocation));
 
-            return symbol;
+            return token;
         }
 
-        protected virtual TSymbol Turn()
+        protected virtual SyntaxToken Turn()
         {
             if (CurrentState != null)
             {
@@ -105,19 +104,19 @@ namespace Microsoft.AspNetCore.Razor.Language.Legacy
                     var next = Dispatch();
 
                     CurrentState = next.State;
-                    CurrentSymbol = next.Result;
+                    CurrenSyntaxToken = next.Result;
                 }
-                while (CurrentState != null && CurrentSymbol == null);
+                while (CurrentState != null && CurrenSyntaxToken == null);
 
                 if (CurrentState == null)
                 {
-                    return default(TSymbol); // Terminated
+                    return default(SyntaxToken); // Terminated
                 }
 
-                return CurrentSymbol;
+                return CurrenSyntaxToken;
             }
 
-            return default(TSymbol);
+            return default(SyntaxToken);
         }
 
         public void Reset()
@@ -149,7 +148,7 @@ namespace Microsoft.AspNetCore.Razor.Language.Legacy
         /// Returns a result containing the specified output and indicating that the next call to
         /// <see cref="Turn"/> should invoke the provided state.
         /// </summary>
-        protected StateResult Transition(int state, TSymbol result)
+        protected StateResult Transition(int state, SyntaxToken result)
         {
             return new StateResult(state, result);
         }
@@ -159,7 +158,7 @@ namespace Microsoft.AspNetCore.Razor.Language.Legacy
             return new StateResult((int)state, result: null);
         }
 
-        protected StateResult Transition(RazorCommentTokenizerState state, TSymbol result)
+        protected StateResult Transition(RazorCommentTokenizerState state, SyntaxToken result)
         {
             return new StateResult((int)state, result);
         }
@@ -180,18 +179,18 @@ namespace Microsoft.AspNetCore.Razor.Language.Legacy
         /// Returns a result containing the specified output and indicating that the next call to
         /// <see cref="Turn"/> should re-invoke the current state.
         /// </summary>
-        protected StateResult Stay(TSymbol result)
+        protected StateResult Stay(SyntaxToken result)
         {
             return new StateResult(CurrentState, result);
         }
 
-        protected TSymbol Single(TSymbolType type)
+        protected SyntaxToken Single(SyntaxKind type)
         {
             TakeCurrent();
-            return EndSymbol(type);
+            return EndToken(type);
         }
 
-        protected void StartSymbol()
+        protected void StartToken()
         {
             Debug.Assert(Buffer.Length == 0);
             Debug.Assert(CurrentErrors.Count == 0);
@@ -199,9 +198,9 @@ namespace Microsoft.AspNetCore.Razor.Language.Legacy
             CurrentStart = CurrentLocation;
         }
 
-        protected TSymbol EndSymbol(TSymbolType type)
+        protected SyntaxToken EndToken(SyntaxKind type)
         {
-            TSymbol symbol = null;
+            SyntaxToken token = null;
             if (HaveContent)
             {
                 // Perf: Don't allocate a new errors array unless necessary.
@@ -211,18 +210,18 @@ namespace Microsoft.AspNetCore.Razor.Language.Legacy
                     errors[i] = CurrentErrors[i];
                 }
 
-                var symbolContent = GetSymbolContent(type);
-                Debug.Assert(string.Equals(symbolContent, Buffer.ToString(), StringComparison.Ordinal));
-                symbol = CreateSymbol(symbolContent, type, errors);
+                var tokenContent = GetTokenContent(type);
+                Debug.Assert(string.Equals(tokenContent, Buffer.ToString(), StringComparison.Ordinal));
+                token = CreateToken(tokenContent, type, errors);
 
                 Buffer.Clear();
                 CurrentErrors.Clear();
             }
 
-            return symbol;
+            return token;
         }
 
-        protected virtual string GetSymbolContent(TSymbolType type)
+        protected virtual string GetTokenContent(SyntaxKind type)
         {
             return Buffer.ToString();
         }
@@ -272,13 +271,13 @@ namespace Microsoft.AspNetCore.Razor.Language.Legacy
         {
             if (CurrentCharacter != '*')
             {
-                // We've been moved since last time we were asked for a symbol... reset the state
+                // We've been moved since last time we were asked for a token... reset the state
                 return Transition(StartState);
             }
 
             AssertCurrent('*');
             TakeCurrent();
-            return Transition(1002, EndSymbol(RazorCommentStarType));
+            return Transition(1002, EndToken(RazorCommentStarKind));
         }
 
         protected StateResult RazorCommentBody()
@@ -292,7 +291,7 @@ namespace Microsoft.AspNetCore.Razor.Language.Legacy
                     {
                         return Transition(
                             RazorCommentTokenizerState.StarAfterRazorCommentBody,
-                            EndSymbol(RazorCommentType));
+                            EndToken(RazorCommentKind));
                     }
                     else
                     {
@@ -306,7 +305,7 @@ namespace Microsoft.AspNetCore.Razor.Language.Legacy
                 }
             }
 
-            return Transition(StartState, EndSymbol(RazorCommentType));
+            return Transition(StartState, EndToken(RazorCommentKind));
         }
 
         protected StateResult StarAfterRazorCommentBody()
@@ -314,15 +313,15 @@ namespace Microsoft.AspNetCore.Razor.Language.Legacy
             AssertCurrent('*');
             TakeCurrent();
             return Transition(
-                RazorCommentTokenizerState.AtSymbolAfterRazorCommentBody,
-                EndSymbol(RazorCommentStarType));
+                RazorCommentTokenizerState.AtTokenAfterRazorCommentBody,
+                EndToken(RazorCommentStarKind));
         }
 
-        protected StateResult AtSymbolAfterRazorCommentBody()
+        protected StateResult AtTokenAfterRazorCommentBody()
         {
             AssertCurrent('@');
             TakeCurrent();
-            return Transition(StartState, EndSymbol(RazorCommentTransitionType));
+            return Transition(StartState, EndToken(RazorCommentTransitionKind));
         }
 
         /// <summary>
@@ -392,12 +391,12 @@ namespace Microsoft.AspNetCore.Razor.Language.Legacy
             EscapedRazorCommentTransition,
             RazorCommentBody,
             StarAfterRazorCommentBody,
-            AtSymbolAfterRazorCommentBody,
+            AtTokenAfterRazorCommentBody,
         }
 
         protected struct StateResult
         {
-            public StateResult(int? state, TSymbol result)
+            public StateResult(int? state, SyntaxToken result)
             {
                 State = state;
                 Result = result;
@@ -405,7 +404,7 @@ namespace Microsoft.AspNetCore.Razor.Language.Legacy
 
             public int? State { get; }
 
-            public TSymbol Result { get; }
+            public SyntaxToken Result { get; }
         }
 
         private static LookaheadToken BeginLookahead(ITextBuffer buffer)

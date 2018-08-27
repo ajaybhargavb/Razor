@@ -1,11 +1,13 @@
 // Copyright (c) .NET Foundation. All rights reserved.
 // Licensed under the Apache License, Version 2.0. See License.txt in the project root for license information.
 
+using Microsoft.AspNetCore.Razor.Language.Syntax.InternalSyntax;
+
 namespace Microsoft.AspNetCore.Razor.Language.Legacy
 {
     public abstract class CSharpTokenizerTestBase : TokenizerTestBase
     {
-        private static CSharpSymbol _ignoreRemaining = new CSharpSymbol(string.Empty, CSharpSymbolType.Unknown);
+        private static SyntaxToken _ignoreRemaining = SyntaxFactory.Token(SyntaxKind.Unknown, string.Empty);
 
         internal override object IgnoreRemaining
         {
@@ -17,14 +19,9 @@ namespace Microsoft.AspNetCore.Razor.Language.Legacy
             return new CSharpTokenizer(source);
         }
 
-        internal void TestSingleToken(string text, CSharpSymbolType expectedSymbolType)
+        internal void TestSingleToken(string text, SyntaxKind expectedTokenKind)
         {
-            TestTokenizer(text, new CSharpSymbol(text, expectedSymbolType));
-        }
-
-        internal void TestTokenizer(string input, params CSharpSymbol[] expectedSymbols)
-        {
-            base.TestTokenizer<CSharpSymbol, CSharpSymbolType>(input, expectedSymbols);
+            TestTokenizer(text, SyntaxFactory.Token(expectedTokenKind, text));
         }
     }
 }

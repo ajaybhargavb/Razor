@@ -1,0 +1,12 @@
+Expression block - Gen<Expr> - 22 - (0:0,0)
+    Code span - Gen<Expr> - [Foo[Bar[Baz]LFBizLFBoz] - ImplicitExpressionEditHandler;Accepts:Any;ImplicitExpression[RTD];K14 - (0:0,0) - Tokens:10
+        SyntaxKind.Identifier;[Foo];
+        SyntaxKind.LeftBracket;[[];
+        SyntaxKind.Identifier;[Bar];
+        SyntaxKind.LeftBracket;[[];
+        SyntaxKind.Identifier;[Baz];
+        SyntaxKind.RightBracket;[]];
+        SyntaxKind.NewLine;[LF];
+        SyntaxKind.Identifier;[Biz];
+        SyntaxKind.NewLine;[LF];
+        SyntaxKind.Identifier;[Boz];

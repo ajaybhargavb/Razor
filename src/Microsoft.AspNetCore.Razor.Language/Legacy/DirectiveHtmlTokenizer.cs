@@ -2,6 +2,7 @@
 // Licensed under the Apache License, Version 2.0. See License.txt in the project root for license information.
 
 using System.Diagnostics;
+using Microsoft.AspNetCore.Razor.Language.Syntax.InternalSyntax;
 
 namespace Microsoft.AspNetCore.Razor.Language.Legacy
 {
@@ -16,7 +17,7 @@ namespace Microsoft.AspNetCore.Razor.Language.Legacy
         protected override StateResult Dispatch()
         {
             var result = base.Dispatch();
-            if (result.Result != null && IsValidTokenType(result.Result.Type))
+            if (result.Result != null && IsValidTokenType(result.Result.Kind))
             {
                 _visitedFirstTokenStart = true;
             }
@@ -24,33 +25,33 @@ namespace Microsoft.AspNetCore.Razor.Language.Legacy
             return result;
         }
 
-        public override HtmlSymbol NextSymbol()
+        public override SyntaxToken NextToken()
         {
             // Post-Condition: Buffer should be empty at the start of Next()
             Debug.Assert(Buffer.Length == 0);
-            StartSymbol();
+            StartToken();
 
             if (EndOfFile || _visitedFirstTokenStart)
             {
                 return null;
             }
 
-            var symbol = Turn();
+            var token = Turn();
 
             // Post-Condition: Buffer should be empty at the end of Next()
             Debug.Assert(Buffer.Length == 0);
 
-            return symbol;
+            return token;
         }
 
-        private bool IsValidTokenType(HtmlSymbolType type)
+        private bool IsValidTokenType(SyntaxKind kind)
         {
-            return type != HtmlSymbolType.WhiteSpace &&
-                type != HtmlSymbolType.NewLine &&
-                type != HtmlSymbolType.RazorComment &&
-                type != HtmlSymbolType.RazorCommentStar &&
-                type != HtmlSymbolType.RazorCommentTransition &&
-                type != HtmlSymbolType.Transition;
+            return kind != SyntaxKind.Whitespace &&
+                kind != SyntaxKind.NewLine &&
+                kind != SyntaxKind.RazorCommentLiteral &&
+                kind != SyntaxKind.RazorCommentStar &&
+                kind != SyntaxKind.RazorCommentTransition &&
+                kind != SyntaxKind.Transition;
         }
     }
 }

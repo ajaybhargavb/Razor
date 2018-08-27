@@ -1,0 +1,8 @@
+Expression block - Gen<Expr> - 10 - (0:0,0)
+    MetaCode span - Gen<None> - [(] - SpanEditHandler;Accepts:None - (0:0,0) - Tokens:1
+        SyntaxKind.LeftParenthesis;[(];
+    Code span - Gen<Expr> - [foo barLF] - SpanEditHandler;Accepts:Any - (1:0,1) - Tokens:4
+        SyntaxKind.Identifier;[foo];
+        SyntaxKind.Whitespace;[ ];
+        SyntaxKind.Identifier;[bar];
+        SyntaxKind.NewLine;[LF];

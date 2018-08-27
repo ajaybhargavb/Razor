@@ -1,0 +1,100 @@
+Statement block - Gen<None> - 141 - (0:0,0)
+    Code span - Gen<Stmt> - [try { var foo = new { } } catch(Foo Bar Baz) { var foo = new { } } catch(Foo Bar Baz) { var foo = new { } } catch(Foo Bar Baz) {] - SpanEditHandler;Accepts:Any - (0:0,0) - Tokens:78
+        SyntaxKind.Keyword;[try];
+        SyntaxKind.Whitespace;[ ];
+        SyntaxKind.LeftBrace;[{];
+        SyntaxKind.Whitespace;[ ];
+        SyntaxKind.Identifier;[var];
+        SyntaxKind.Whitespace;[ ];
+        SyntaxKind.Identifier;[foo];
+        SyntaxKind.Whitespace;[ ];
+        SyntaxKind.Assign;[=];
+        SyntaxKind.Whitespace;[ ];
+        SyntaxKind.Keyword;[new];
+        SyntaxKind.Whitespace;[ ];
+        SyntaxKind.LeftBrace;[{];
+        SyntaxKind.Whitespace;[ ];
+        SyntaxKind.RightBrace;[}];
+        SyntaxKind.Whitespace;[ ];
+        SyntaxKind.RightBrace;[}];
+        SyntaxKind.Whitespace;[ ];
+        SyntaxKind.Keyword;[catch];
+        SyntaxKind.LeftParenthesis;[(];
+        SyntaxKind.Identifier;[Foo];
+        SyntaxKind.Whitespace;[ ];
+        SyntaxKind.Identifier;[Bar];
+        SyntaxKind.Whitespace;[ ];
+        SyntaxKind.Identifier;[Baz];
+        SyntaxKind.RightParenthesis;[)];
+        SyntaxKind.Whitespace;[ ];
+        SyntaxKind.LeftBrace;[{];
+        SyntaxKind.Whitespace;[ ];
+        SyntaxKind.Identifier;[var];
+        SyntaxKind.Whitespace;[ ];
+        SyntaxKind.Identifier;[foo];
+        SyntaxKind.Whitespace;[ ];
+        SyntaxKind.Assign;[=];
+        SyntaxKind.Whitespace;[ ];
+        SyntaxKind.Keyword;[new];
+        SyntaxKind.Whitespace;[ ];
+        SyntaxKind.LeftBrace;[{];
+        SyntaxKind.Whitespace;[ ];
+        SyntaxKind.RightBrace;[}];
+        SyntaxKind.Whitespace;[ ];
+        SyntaxKind.RightBrace;[}];
+        SyntaxKind.Whitespace;[ ];
+        SyntaxKind.Keyword;[catch];
+        SyntaxKind.LeftParenthesis;[(];
+        SyntaxKind.Identifier;[Foo];
+        SyntaxKind.Whitespace;[ ];
+        SyntaxKind.Identifier;[Bar];
+        SyntaxKind.Whitespace;[ ];
+        SyntaxKind.Identifier;[Baz];
+        SyntaxKind.RightParenthesis;[)];
+        SyntaxKind.Whitespace;[ ];
+        SyntaxKind.LeftBrace;[{];
+        SyntaxKind.Whitespace;[ ];
+        SyntaxKind.Identifier;[var];
+        SyntaxKind.Whitespace;[ ];
+        SyntaxKind.Identifier;[foo];
+        SyntaxKind.Whitespace;[ ];
+        SyntaxKind.Assign;[=];
+        SyntaxKind.Whitespace;[ ];
+        SyntaxKind.Keyword;[new];
+        SyntaxKind.Whitespace;[ ];
+        SyntaxKind.LeftBrace;[{];
+        SyntaxKind.Whitespace;[ ];
+        SyntaxKind.RightBrace;[}];
+        SyntaxKind.Whitespace;[ ];
+        SyntaxKind.RightBrace;[}];
+        SyntaxKind.Whitespace;[ ];
+        SyntaxKind.Keyword;[catch];
+        SyntaxKind.LeftParenthesis;[(];
+        SyntaxKind.Identifier;[Foo];
+        SyntaxKind.Whitespace;[ ];
+        SyntaxKind.Identifier;[Bar];
+        SyntaxKind.Whitespace;[ ];
+        SyntaxKind.Identifier;[Baz];
+        SyntaxKind.RightParenthesis;[)];
+        SyntaxKind.Whitespace;[ ];
+        SyntaxKind.LeftBrace;[{];
+    Markup block - Gen<None> - 12 - (128:0,128)
+        Markup span - Gen<Markup> - [ ] - SpanEditHandler;Accepts:Any - (128:0,128) - Tokens:1
+            SyntaxKind.Whitespace;[ ];
+        Tag block - Gen<None> - 3 - (129:0,129)
+            Markup span - Gen<Markup> - [<p>] - SpanEditHandler;Accepts:None - (129:0,129) - Tokens:3
+                SyntaxKind.OpenAngle;[<];
+                SyntaxKind.HtmlTextLiteral;[p];
+                SyntaxKind.CloseAngle;[>];
+        Markup span - Gen<Markup> - [Foo] - SpanEditHandler;Accepts:Any - (132:0,132) - Tokens:1
+            SyntaxKind.HtmlTextLiteral;[Foo];
+        Tag block - Gen<None> - 4 - (135:0,135)
+            Markup span - Gen<Markup> - [</p>] - SpanEditHandler;Accepts:None - (135:0,135) - Tokens:4
+                SyntaxKind.OpenAngle;[<];
+                SyntaxKind.ForwardSlash;[/];
+                SyntaxKind.HtmlTextLiteral;[p];
+                SyntaxKind.CloseAngle;[>];
+        Markup span - Gen<Markup> - [ ] - SpanEditHandler;Accepts:None - (139:0,139) - Tokens:1
+            SyntaxKind.Whitespace;[ ];
+    Code span - Gen<Stmt> - [}] - SpanEditHandler;Accepts:Any - (140:0,140) - Tokens:1
+        SyntaxKind.RightBrace;[}];
