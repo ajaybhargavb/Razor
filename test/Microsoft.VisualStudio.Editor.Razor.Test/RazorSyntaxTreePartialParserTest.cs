@@ -136,7 +136,7 @@ namespace Microsoft.VisualStudio.Editor.Razor
         }
 
         [Fact]
-        public void ImplicitExpressionAcceptsInnerInsertionsInStatementBlock()
+        public void ImpExprAcceptsInnerInsertionsInStatementBlock()
         {
             // Arrange
             var factory = new SpanFactory();
@@ -168,7 +168,7 @@ namespace Microsoft.VisualStudio.Editor.Razor
         }
 
         [Fact]
-        public void ImplicitExpressionAcceptsInnerInsertions()
+        public void ImpExprAcceptsInnerInsertions()
         {
             // Arrange
             var factory = new SpanFactory();
@@ -186,7 +186,7 @@ namespace Microsoft.VisualStudio.Editor.Razor
         }
 
         [Fact]
-        public void ImplicitExpressionAcceptsWholeIdentifierReplacement()
+        public void ImpExprAcceptsWholeIdentifierReplacement()
         {
             // Arrange
             var factory = new SpanFactory();
@@ -204,7 +204,7 @@ namespace Microsoft.VisualStudio.Editor.Razor
         }
 
         [Fact]
-        public void ImplicitExpressionRejectsWholeIdentifierReplacementToKeyword()
+        public void ImpExprRejectsWholeIdentifierReplacementToKeyword()
         {
             // Arrange
             var old = new StringTextSnapshot("foo @date baz");
@@ -216,7 +216,7 @@ namespace Microsoft.VisualStudio.Editor.Razor
         }
 
         [Fact]
-        public void ImplicitExpressionRejectsWholeIdentifierReplacementToDirective()
+        public void ImpExprRejectsWholeIdentifierReplacementToDirective()
         {
             // Arrange
             var old = new StringTextSnapshot("foo @date baz");
@@ -228,7 +228,7 @@ namespace Microsoft.VisualStudio.Editor.Razor
         }
 
         [Fact]
-        public void ImplicitExpressionAcceptsPrefixIdentifierReplacements_SingleSymbol()
+        public void ImpExprAcceptsPrefixIdentifierReplacements_SingleSymbol()
         {
             // Arrange
             var factory = new SpanFactory();
@@ -246,7 +246,7 @@ namespace Microsoft.VisualStudio.Editor.Razor
         }
 
         [Fact]
-        public void ImplicitExpressionAcceptsPrefixIdentifierReplacements_MultipleSymbols()
+        public void ImpExprAcceptsPrefixIdentifierReplacements_MultipleSymbols()
         {
             // Arrange
             var factory = new SpanFactory();
@@ -264,7 +264,7 @@ namespace Microsoft.VisualStudio.Editor.Razor
         }
 
         [Fact]
-        public void ImplicitExpressionAcceptsSuffixIdentifierReplacements_SingleSymbol()
+        public void ImpExprAcceptsSuffixIdentifierReplacements_SingleSymbol()
         {
             // Arrange
             var factory = new SpanFactory();
@@ -282,7 +282,7 @@ namespace Microsoft.VisualStudio.Editor.Razor
         }
 
         [Fact]
-        public void ImplicitExpressionAcceptsSuffixIdentifierReplacements_MultipleSymbols()
+        public void ImpExprAcceptsSuffixIdentifierReplacements_MultipleSymbols()
         {
             // Arrange
             var factory = new SpanFactory();
@@ -300,7 +300,7 @@ namespace Microsoft.VisualStudio.Editor.Razor
         }
 
         [Fact]
-        public void ImplicitExpressionAcceptsSurroundedIdentifierReplacements()
+        public void ImpExprAcceptsSurroundedIdentifierReplacements()
         {
             // Arrange
             var factory = new SpanFactory();
@@ -318,7 +318,7 @@ namespace Microsoft.VisualStudio.Editor.Razor
         }
 
         [Fact]
-        public void ImplicitExpressionProvisionallyAcceptsDeleteOfIdentifierPartsIfDotRemains()
+        public void ImpExprProvisionallyAcceptsDeleteOfIdentifierPartsIfDotRemains()
         {
             var factory = new SpanFactory();
             var changed = new StringTextSnapshot("foo @User. baz");
@@ -334,7 +334,7 @@ namespace Microsoft.VisualStudio.Editor.Razor
         }
 
         [Fact]
-        public void ImplicitExpressionAcceptsDeleteOfIdentifierPartsIfSomeOfIdentifierRemains()
+        public void ImpExprAcceptsDeleteOfIdentifierPartsIfSomeOfIdentifierRemains()
         {
             var factory = new SpanFactory();
             var changed = new StringTextSnapshot("foo @Us baz");
@@ -349,8 +349,9 @@ namespace Microsoft.VisualStudio.Editor.Razor
         }
 
         [Fact]
-        public void ImplicitExpressionProvisionallyAcceptsMultipleInsertionIfItCausesIdentifierExpansionAndTrailingDot()
+        public void ImpExprProvisionalForMultipleInsertionIfItCausesIdentifierExpansionAndTrailingDot()
         {
+            // ImpExprProvisionallyAcceptsMultipleInsertionIfItCausesIdentifierExpansionAndTrailingDot
             var factory = new SpanFactory();
             var changed = new StringTextSnapshot("foo @User. baz");
             var old = new StringTextSnapshot("foo @U baz");
@@ -365,7 +366,7 @@ namespace Microsoft.VisualStudio.Editor.Razor
         }
 
         [Fact]
-        public void ImplicitExpressionAcceptsMultipleInsertionIfItOnlyCausesIdentifierExpansion()
+        public void ImpExprAcceptsMultipleInsertionIfItOnlyCausesIdentifierExpansion()
         {
             var factory = new SpanFactory();
             var changed = new StringTextSnapshot("foo @barbiz baz");
@@ -380,7 +381,7 @@ namespace Microsoft.VisualStudio.Editor.Razor
         }
 
         [Fact]
-        public void ImplicitExpressionAcceptsIdentifierExpansionAtEndOfNonWhitespaceCharacters()
+        public void ImpExprAcceptsIdentifierExpansionAtEndOfNonWhitespaceCharacters()
         {
             var factory = new SpanFactory();
             var changed = new StringTextSnapshot("@{" + Environment.NewLine
@@ -409,7 +410,7 @@ namespace Microsoft.VisualStudio.Editor.Razor
         }
 
         [Fact]
-        public void ImplicitExpressionAcceptsIdentifierAfterDotAtEndOfNonWhitespaceCharacters()
+        public void ImpExprAcceptsIdentifierAfterDotAtEndOfNonWhitespaceCharacters()
         {
             var factory = new SpanFactory();
             var changed = new StringTextSnapshot("@{" + Environment.NewLine
@@ -438,7 +439,7 @@ namespace Microsoft.VisualStudio.Editor.Razor
         }
 
         [Fact]
-        public void ImplicitExpressionAcceptsDotAtEndOfNonWhitespaceCharacters()
+        public void ImpExprAcceptsDotAtEndOfNonWhitespaceCharacters()
         {
             var factory = new SpanFactory();
             var changed = new StringTextSnapshot("@{" + Environment.NewLine
@@ -467,7 +468,7 @@ namespace Microsoft.VisualStudio.Editor.Razor
         }
 
         [Fact]
-        public void ImplicitExpressionProvisionallyAcceptsDotAfterIdentifierInMarkup()
+        public void ImpExprProvisionallyAcceptsDotAfterIdentifierInMarkup()
         {
             var factory = new SpanFactory();
             var changed = new StringTextSnapshot("foo @foo. bar");
@@ -485,7 +486,7 @@ namespace Microsoft.VisualStudio.Editor.Razor
         }
 
         [Fact]
-        public void ImplicitExpressionAcceptsAdditionalIdentifierCharactersIfEndOfSpanIsIdentifier()
+        public void ImpExprAcceptsAdditionalIdentifierCharactersIfEndOfSpanIsIdentifier()
         {
             var factory = new SpanFactory();
             var changed = new StringTextSnapshot("foo @foob bar");
@@ -502,7 +503,7 @@ namespace Microsoft.VisualStudio.Editor.Razor
         }
 
         [Fact]
-        public void ImplicitExpressionAcceptsAdditionalIdentifierStartCharactersIfEndOfSpanIsDot()
+        public void ImpExprAcceptsAdditionalIdentifierStartCharactersIfEndOfSpanIsDot()
         {
             var factory = new SpanFactory();
             var changed = new StringTextSnapshot("@{@foo.b}");
@@ -527,7 +528,7 @@ namespace Microsoft.VisualStudio.Editor.Razor
         }
 
         [Fact]
-        public void ImplicitExpressionAcceptsDotIfTrailingDotsAreAllowed()
+        public void ImpExprAcceptsDotIfTrailingDotsAreAllowed()
         {
             var factory = new SpanFactory();
             var changed = new StringTextSnapshot("@{@foo.}");
